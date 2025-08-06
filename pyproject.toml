@@ -25,7 +25,7 @@ taskipy = "^1.14.1"
 lint = 'ruff check'
 pre_format = 'ruff check --fix'
 format = 'ruff format'
-run = 'fastapi dev src\fast_zero\app.py'
+run = 'fastapi dev app.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=src\fast_zero -vv'
 post_test = 'coverage html'
