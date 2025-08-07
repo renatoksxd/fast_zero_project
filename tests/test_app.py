@@ -9,7 +9,7 @@ def test_read_root_deve_retornar_ok_e_ola_mundo(client):
     # (confirmação)
 
 
-def test_ola_mundo_retorna_ok_e_ola_mundo(client):
+def test_ola_mundo_retorna_ok_e_ola_mundo_ex2(client):
     acao = client.get('/ex1')  # act
 
     assert acao.status_code == HTTPStatus.OK
@@ -34,6 +34,24 @@ def test_create_user(client):
         'email': 'test@test.com',
         'id': 1,
     }
+
+
+def test_read_user_ex3(client):
+    response = client.get('/users/1')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'username': 'testusername',
+        'email': 'test@test.com',
+        'id': 1,
+    }
+
+
+def test_read_user_deve_retornar_erro_ex3(client):
+    response = client.get('/users/100')
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {'detail': 'User not found'}
 
 
 def test_get_users(client):
@@ -69,3 +87,20 @@ def test_delete_user(client):
     response = client.delete('/users/1')
 
     assert response.json() == {'message': 'User deleted'}
+
+
+def test_update_user_deve_retornar_erro_ex3(client):
+    response = client.put(
+        '/users/100',
+        json={'username': 'bob', 'email': 'test@test.com', 'password': '123'},
+    )
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {'detail': 'User not found'}
+
+
+def test_delete_user_deve_retornar_erro_ex3(client):
+    response = client.delete('/users/100')
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert response.json() == {'detail': 'User not found'}
