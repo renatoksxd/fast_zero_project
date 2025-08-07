@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "fast_zero", from = "src"}]
+packages = [{include = "fast_zero", from = "main"}]
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,9 +25,9 @@ taskipy = "^1.14.1"
 lint = 'ruff check'
 pre_format = 'ruff check --fix'
 format = 'ruff format'
-run = 'fastapi dev app.py'
+run = 'fastapi dev main\app.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=src\fast_zero -vv'
+test = 'pytest --cov=main -vv'
 post_test = 'coverage html'
 
 [tool.pytest.ini_options]
