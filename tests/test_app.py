@@ -11,7 +11,7 @@ def test_read_root_deve_retornar_ok_e_ola_mundo(client):
     # (confirmação)
 
 
-def test_ola_mundo_retorna_ok_e_ola_mundo_ex2(client):
+def test_ola_mundo_retorna_ok_e_ola_mundo_ex(client):
     acao = client.get('/ex1')  # act
 
     assert acao.status_code == HTTPStatus.OK
@@ -38,18 +38,64 @@ def test_create_user(client):
     }
 
 
-def test_read_user_ex3(client, user):
+def test_create_user_valida_erro_de_usuario_existente_ex(client):
+    client.post(  # incluindo cadastro lucas
+        '/users',
+        json={
+            'username': 'lucas',
+            'email': 'lucas@example.com',
+            'password': 'teste',
+        },
+    )
+
+    response = client.post(  # Tentanco criar novo usuário
+        '/users',
+        json={
+            'username': 'lucas',
+            'email': 'teste@example.com',
+            'password': 'testeteste',
+        },
+    )
+    # Validando erro
+    assert response.status_code == HTTPStatus.CONFLICT
+    assert response.json() == {'detail': 'Username already exist'}
+
+
+def test_create_user_valida_erro_de_email_existente_ex(client):
+    client.post(  # incluindo cadastro lucas
+        '/users',
+        json={
+            'username': 'lucas',
+            'email': 'lucas@example.com',
+            'password': 'teste',
+        },
+    )
+
+    response = client.post(  # Tentanco criar novo usuário
+        '/users',
+        json={
+            'username': 'luiz',
+            'email': 'lucas@example.com',
+            'password': 'testeteste',
+        },
+    )
+    # Validando erro
+    assert response.status_code == HTTPStatus.CONFLICT
+    assert response.json() == {'detail': 'Email already exist'}
+
+
+def test_read_user_ex(client, user):
     response = client.get('/users/1')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        'username': 'testusername',
-        'email': 'test@test.com',
+        'username': 'Teste',
+        'email': 'teste@test.com',
         'id': 1,
     }
 
 
-def test_read_user_deve_retornar_erro_ex3(client, user):
+def test_read_user_deve_retornar_erro_ex(client, user):
     response = client.get('/users/100')
 
     assert response.status_code == HTTPStatus.NOT_FOUND

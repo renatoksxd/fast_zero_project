@@ -44,12 +44,12 @@ def create_user(user: UserSchema, session=Depends(get_session)):
         if db_user.username == user.username:
             raise HTTPException(
                 status_code=HTTPStatus.CONFLICT,
-                detail='Username já existe',
+                detail='Username already exist',
             )
         else:
             raise HTTPException(
                 status_code=HTTPStatus.CONFLICT,
-                detail='Email já existe',
+                detail='Email already exist',
             )
     db_user = User(
         username=user.username, email=user.email, password=user.password
@@ -60,6 +60,16 @@ def create_user(user: UserSchema, session=Depends(get_session)):
     session.refresh(db_user)
 
     return db_user
+
+
+@app.get('/users/{user_id}', response_model=UserPublic)
+def read_user(user_id: int, session: Session = Depends(get_session)):
+    user_db = session.scalar(select(User).where(User.id == user_id))
+    if not user_db:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='User not found'
+        )
+    return user_db
 
 
 @app.get('/users/', response_model=UserList)
@@ -108,12 +118,3 @@ def delete_user(user_id: int, session: Session = Depends(get_session)):
     session.commit()
 
     return {'message': 'User deleted'}
-
-
-@app.get('/users/{user_id}', response_model=UserPublic)
-def read_user(user_id: int):
-    if user_id < 1 or user_id > len():
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail='User not found'
-        )
-    return [user_id - 1]
