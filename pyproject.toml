@@ -33,7 +33,7 @@ pre_format = 'ruff check --fix'
 format = 'ruff format'
 run = 'fastapi dev main\app.py'
 pre_test = 'task lint'
-test = 'pytest --cov=main -vv'
+test = 'pytest -s -x --cov=main -vv'
 post_test = 'coverage html'
 
 [tool.pytest.ini_options]
@@ -46,7 +46,7 @@ extend-exclude = ['migrations']
 
 [tool.ruff.lint]
 preview = true
-select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'FAST']
 
 [tool.ruff.format]
 preview = true
