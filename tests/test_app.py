@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from main.schemas import UserPublic
+from main.security import create_access_token
 
 
 def test_read_root_deve_retornar_ok_e_ola_mundo(client):
@@ -140,24 +141,6 @@ def test_delete_user(client, user, token):
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_update_user_deve_retornar_erro_ex3(client, user, token):
-    response = client.put(
-        '/users/100',
-        headers={'Authorization': f'Bearer {token}'},
-        json={'username': 'bob', 'email': 'test@test.com', 'password': '123'},
-    )
-
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User not found'}
-
-
-def test_delete_user_deve_retornar_erro_ex3(client, user):
-    response = client.delete('/users/100')
-
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User not found'}
-
-
 def test_update_integrity_error(client, user, token):
     # Inserindo Fausto
     client.post(
@@ -195,3 +178,29 @@ def test_get_token(client, user):
     assert response.status_code == HTTPStatus.OK
     assert token['token_type'] == 'bearer'
     assert 'access_token' in token
+
+
+def test_get_token_current_user_erro_ex(client):
+    data = {'email': 'test'}
+    token = create_access_token(data)
+
+    response = client.delete(
+        '/users/1',
+        headers={'Authorization': f'Bearer {token}'},
+    )
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Could not validate credentials'}
+
+
+def test_get_token_current_user_nao_encontrado_ex(client):
+    data = {'sub': 'test@test'}
+    token = create_access_token(data)
+
+    response = client.delete(
+        '/users/1',
+        headers={'Authorization': f'Bearer {token}'},
+    )
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Could not validate credentials'}
