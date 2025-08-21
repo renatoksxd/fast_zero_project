@@ -53,8 +53,8 @@ async def create_user(user: UserSchema, session: Session):
 
 
 @router.get('/{user_id}', response_model=UserPublic)
-def read_user(user_id: int, session: Session):
-    user_db = session.scalar(select(User).where(User.id == user_id))
+async def read_user(user_id: int, session: Session):  # Exercicio
+    user_db = await session.scalar(select(User).where(User.id == user_id))
     if not user_db:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND, detail='User not found'
