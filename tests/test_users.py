@@ -87,7 +87,7 @@ def test_read_user_deve_retornar_erro_ex(client, user):
     assert response.json() == {'detail': 'User not found'}
 
 
-def test_read_users_with_user(client, user, token):
+def test_read_users(client, user, token):
     user_schema = UserPublic.model_validate(user).model_dump()
     response = client.get(
         '/users/', headers={'Authorization': f'Bearer {token}'}
