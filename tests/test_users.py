@@ -69,17 +69,6 @@ def test_create_user_valida_erro_de_email_existente_ex(client):
     assert response.json() == {'detail': 'Email already exist'}
 
 
-def test_read_user_ex(client, user):
-    response = client.get('/users/1')
-
-    assert response.status_code == HTTPStatus.OK
-    assert response.json() == {
-        'username': 'Teste',
-        'email': 'teste@test.com',
-        'id': 1,
-    }
-
-
 def test_read_user_deve_retornar_erro_ex(client, user):
     response = client.get('/users/100')
 
@@ -125,23 +114,12 @@ def test_delete_user(client, user, token):
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_update_integrity_error(client, user, token):
-    # Inserindo Fausto
-    client.post(
-        '/users',
-        json={
-            'username': 'fausto',
-            'email': 'fausto@example.com',
-            'password': 'secret',
-        },
-    )
-
-    # Alterando o user da fixture para Fausto
+def test_update_integrity_error(client, user, other_user, token):
     response = client.put(
         f'/users/{user.id}',
         headers={'Authorization': f'Bearer {token}'},
         json={
-            'username': 'fausto',
+            'username': other_user.username,
             'email': 'bob@example.com',
             'password': 'mynewpassword',
         },

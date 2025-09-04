@@ -37,7 +37,7 @@ pre_format = 'ruff check --fix'
 format = 'ruff format'
 run = 'fastapi dev main\app.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=main -vv'
+test = 'pytest -s -x --cov=main --cov=routers --cov-report=term-missing -vv'
 post_test = 'coverage html'
 
 [tool.pytest.ini_options]
