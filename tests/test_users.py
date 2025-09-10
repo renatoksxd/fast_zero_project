@@ -69,6 +69,17 @@ def test_create_user_valida_erro_de_email_existente_ex(client):
     assert response.json() == {'detail': 'Email already exist'}
 
 
+def test_read_user_com_id(client, user):
+    response = client.get(f'/users/{user.id}')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+    }
+
+
 def test_read_user_deve_retornar_erro_ex(client, user):
     response = client.get('/users/100')
 
