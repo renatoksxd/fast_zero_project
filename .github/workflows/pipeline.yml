@@ -18,7 +18,7 @@ jobs:
         run: pip install poetry
 
       - name: Instalar as dependências
-        run: poetry install
+        run: poetry install --with dev
 
       - name: Executar o linter
         run: poetry run task lint
