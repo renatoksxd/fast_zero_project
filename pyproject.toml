@@ -34,6 +34,7 @@ pytest-asyncio = "^1.1.0"
 factory-boy = "^3.3.3"
 freezegun = "^1.5.5"
 testcontainers = "^4.13.0"
+httpx = "^0.28.1"
 
 [tool.taskipy.tasks]
 lint = 'ruff check'
