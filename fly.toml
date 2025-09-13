@@ -1,0 +1,12 @@
+app = "fast-zero-rks"  # nome do seu app no Fly.io
+primary_region = "gru"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1

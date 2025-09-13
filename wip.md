@@ -1,0 +1,1 @@
+DATABASE_URL=postgresql+psycopg://fly-user:l7BxZBhq5L5OokQWcArF9r0G@pgbouncer.vmkq6098nnpr35ln.flympg.net/fly-db
