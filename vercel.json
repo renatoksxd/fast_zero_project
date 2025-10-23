@@ -1,9 +1,8 @@
 {
   "builds": [
-    { "src": "fast_zero/main.py", "use": "@vercel/python" }
+    { "src": "fast_zero/main/app.py", "use": "@vercel/python" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "fast_zero/main.py" }
-  ],
-  "ignoreCommand": true
+    { "src": "/(.*)", "dest": "fast_zero/main/app.py" }
+  ]
 }
