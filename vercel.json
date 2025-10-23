@@ -1,15 +1,9 @@
 {
   "builds": [
-    {
-      "src": "/main/app.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.13" }
-    }
+    { "src": "fast_zero/main.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/main/app.py"
-    }
-  ]
+    { "src": "/(.*)", "dest": "fast_zero/main.py" }
+  ],
+  "ignoreCommand": true
 }

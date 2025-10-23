@@ -22,6 +22,9 @@ dependencies = [
 ]
 
 [tool.poetry]
+name = ""
+version = "0.1.0"
+description = ""
 packages = []
 package-mode = false
 
